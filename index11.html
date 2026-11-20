@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Hospital</title>
+  <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/320677146?s=200&v=4">
+<meta name="description" content="Life Hospital, Lucknow — 500 beds, 8 departments, one campus since 1998.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+
+<style>
+:root{
+  --paper:#FBF8F2;
+  --card:#FFFFFF;
+  --ink:#2B2620;
+  --ink-soft:#726B5E;
+  --line:#E7E0D2;
+  --blue:#0B6EFD;
+  --blue-deep:#083D8F;
+  --emergency:#C6391F;
+  --tab-cardio:#BD5240;
+  --tab-neuro:#7C6A9C;
+  --tab-ortho:#C0872C;
+  --tab-peds:#5E8F63;
+  --tab-gyno:#B75C82;
+  --tab-derm:#4C8C9C;
+  --tab-surg:#8A7355;
+  --tab-emg:#C6391F;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Work Sans',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --radius:10px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+h1,h2,h3,h4,h5{font-family:var(--display);color:var(--ink);font-weight:600;margin:0;}
+a{text-decoration:none;color:inherit;}
+::selection{background:var(--blue);color:#fff;}
+.container-xl{max-width:1320px;margin:0 auto;padding:0 26px;}
+@media(max-width:768px){.container-xl{padding:0 20px;}}
+.pad{padding:68px 0;}
+@media(max-width:768px){.pad{padding:42px 0;}}
+.hr{border:none;border-top:1px solid var(--line);}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;
+  color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--blue);display:inline-block;}
+.title{font-size:clamp(26px,3.2vw,40px);font-weight:600;line-height:1.18;margin-bottom:12px;}
+.sub{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:540px;}
+.section-head{margin-bottom:36px;}
+.section-head.center{text-align:center;}
+.section-head.center .sub{margin:0 auto;}
+
+.btn-fill{background:var(--blue);color:#fff;border:1px solid var(--blue);border-radius:8px;padding:13px 26px;font-weight:600;font-size:14.5px;display:inline-flex;align-items:center;gap:9px;transition:.25s;}
+.btn-fill:hover{background:var(--blue-deep);border-color:var(--blue-deep);color:#fff;}
+.btn-line{border:1px solid var(--ink);color:var(--ink);border-radius:8px;padding:13px 26px;font-weight:600;font-size:14.5px;display:inline-flex;align-items:center;gap:9px;background:transparent;transition:.25s;}
+.btn-line:hover{border-color:var(--blue);color:var(--blue);}
+.btn-emg{border:1px solid var(--emergency);color:var(--emergency);border-radius:8px;padding:8px 16px;font-weight:600;font-size:13.5px;display:inline-flex;align-items:center;gap:7px;}
+
+/* ===== Signature: the record card — folder tab + punch hole + card index number ===== */
+.rcard{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 22px 20px;height:100%;transition:.25s;}
+.rcard:hover{box-shadow:0 8px 24px rgba(43,38,32,0.07);transform:translateY(-3px);}
+.rcard::before{content:'';position:absolute;top:-1px;left:22px;width:44px;height:7px;background:var(--tab,var(--blue));border-radius:0 0 4px 4px;}
+.rcard .punch{position:absolute;top:16px;right:16px;width:9px;height:9px;border-radius:50%;background:var(--paper);border:1px solid var(--line);}
+.rcard .rindex{position:absolute;bottom:14px;right:18px;font-family:var(--mono);font-size:10px;color:var(--ink-soft);letter-spacing:.03em;}
+
+/* ===== TOP UTILITY BAR ===== */
+.util-bar{background:var(--ink);color:rgba(255,255,255,0.72);font-family:var(--mono);font-size:12px;padding:8px 0;}
+.util-bar .container-xl{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+.util-bar a{color:#fff;}
+
+/* ===== NAV (masthead style) ===== */
+.masthead-nav{background:var(--paper);border-bottom:1px solid var(--line);padding:20px 0;position:sticky;top:0;z-index:900;}
+.masthead-row{display:flex;align-items:center;justify-content:space-between;}
+.brand{font-family:var(--display);font-weight:600;font-size:23px;display:flex;align-items:center;gap:10px;}
+.brand .mark{width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;flex:none;}
+.nav-links{display:flex;gap:26px;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--ink-soft);position:relative;padding-bottom:4px;}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--blue);transform:scaleX(0);transition:.25s;}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-actions{display:flex;align-items:center;gap:12px;}
+.navbar-toggler-x{border:1px solid var(--ink);background:none;width:36px;height:36px;border-radius:8px;color:var(--ink);}
+
+/* ===== HERO — centered masthead style ===== */
+.hero{padding:64px 0 40px;text-align:center;}
+.hero h1{font-size:clamp(36px,5.4vw,64px);line-height:1.08;max-width:900px;margin:0 auto 18px;}
+.hero h1 .accent{color:var(--blue);}
+.hero p.lead{font-size:17.5px;color:var(--ink-soft);max-width:600px;margin:0 auto 30px;line-height:1.7;}
+.hero-cta{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:44px;}
+
+/* Tab chip strip below hero */
+.tab-strip{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.tab-chip{
+  display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;
+  border:1px solid var(--line);font-size:13px;font-weight:500;background:var(--card);
+}
+.tab-chip .sw{width:8px;height:8px;border-radius:50%;background:var(--c,var(--blue));}
+.tab-chip:hover{border-color:var(--c,var(--blue));}
+
+.hero-banner{margin-top:52px;border-radius:16px;overflow:hidden;position:relative;}
+.hero-banner img{width:100%;height:380px;object-fit:cover;display:block;}
+.hero-cap{
+  position:absolute;bottom:0;left:0;right:0;padding:18px 26px;
+  background:linear-gradient(0deg,rgba(43,38,32,0.55),transparent);color:#fff;
+  display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;text-align:left;
+}
+@media(max-width:768px){.hero-banner img{height:220px;}}
+
+/* ===== QUICK FACTS — light strip, no dark board ===== */
+.facts-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card);}
+.facts-row{display:flex;flex-wrap:wrap;}
+.facts-cell{flex:1 1 20%;padding:26px 18px;text-align:center;border-right:1px solid var(--line);}
+.facts-cell:last-child{border-right:none;}
+.facts-num{font-family:var(--mono);font-weight:600;font-size:clamp(24px,2.6vw,32px);color:var(--blue);}
+.facts-lbl{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
+@media(max-width:768px){.facts-cell{flex:1 1 50%;border-bottom:1px solid var(--line);}}
+
+/* ===== ABOUT — drop cap editorial ===== */
+.about-card-photo{position:relative;border-radius:16px;overflow:hidden;}
+.about-card-photo img{width:100%;height:420px;object-fit:cover;display:block;}
+.about-card-photo .punch-tab{
+  position:absolute;top:16px;left:16px;background:var(--card);border-radius:8px;padding:6px 12px;
+  font-family:var(--mono);font-size:11px;color:var(--ink-soft);
+}
+.dropcap::first-letter{
+  font-family:var(--display);font-size:58px;font-weight:600;float:left;line-height:0.8;
+  padding-right:10px;padding-top:6px;color:var(--blue);
+}
+.fact-line{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px;}
+.fact-line:first-child{border-top:1px solid var(--line);}
+.fact-line span:last-child{font-family:var(--mono);color:var(--blue);}
+
+/* ===== DEPARTMENTS grid of record cards ===== */
+.dept-name{font-size:19px;margin-bottom:6px;}
+.dept-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;}
+.dept-tag{font-family:var(--mono);font-size:10.5px;color:var(--tab,var(--blue));text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;display:inline-block;}
+
+/* ===== WHY — four record cards row ===== */
+.why-num{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:10px;}
+.why-card h4{font-size:17px;margin-bottom:8px;}
+.why-card p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.6;}
+
+/* ===== DOCTORS — ID badge cards ===== */
+.badge-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;height:100%;}
+.badge-strip{width:8px;background:var(--tab,var(--blue));flex:none;}
+.badge-photo{width:100px;flex:none;overflow:hidden;}
+.badge-photo img{width:100%;height:100%;object-fit:cover;}
+.badge-body{padding:16px 16px 14px;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+.badge-id{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);margin-bottom:4px;}
+.badge-body h5{font-size:16px;margin-bottom:2px;}
+.badge-spec{font-size:12.5px;color:var(--ink-soft);margin-bottom:10px;}
+.badge-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;}
+
+/* ===== FACILITIES — record cards with photo ===== */
+.fac-photo{border-radius:8px;overflow:hidden;margin-bottom:14px;height:150px;}
+.fac-photo img{width:100%;height:100%;object-fit:cover;}
+
+/* ===== PACKAGES — ticket record cards ===== */
+.pkg-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;height:100%;}
+.pkg-card.featured{border-color:var(--blue);box-shadow:0 10px 30px rgba(11,110,253,0.12);}
+.pkg-tab{padding:6px 20px;font-family:var(--mono);font-size:10.5px;color:#fff;background:var(--tab,var(--blue));text-transform:uppercase;letter-spacing:.05em;}
+.pkg-head{padding:22px 24px 16px;border-bottom:1px dashed var(--line);}
+.pkg-head h5{font-size:20px;margin-bottom:8px;}
+.pkg-price{font-family:var(--mono);font-weight:600;font-size:28px;}
+.pkg-price span{font-size:12.5px;color:var(--ink-soft);font-weight:400;}
+.pkg-body{padding:18px 24px 24px;}
+.pkg-body ul{list-style:none;padding:0;margin:0 0 20px;}
+.pkg-body ul li{display:flex;align-items:center;gap:9px;font-size:13.5px;padding:7px 0;color:var(--ink-soft);}
+.pkg-body ul li i{color:var(--blue);font-size:11px;}
+
+/* ===== APPOINTMENT — record card form ===== */
+.intake-card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;position:relative;}
+.intake-card::before{content:'';position:absolute;top:-1px;left:36px;width:60px;height:8px;background:var(--blue);border-radius:0 0 5px 5px;}
+.intake-grid{display:grid;grid-template-columns:1fr 1.3fr;}
+@media(max-width:900px){.intake-grid{grid-template-columns:1fr;}}
+.intake-photo{background-size:cover;background-position:center;min-height:320px;}
+@media(max-width:900px){.intake-photo{display:none;}}
+.intake-form{padding:40px;}
+.field-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:7px;display:block;}
+.field-input{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--paper);padding:11px 14px;font-size:14.5px;color:var(--ink);font-family:var(--body);}
+.field-input:focus{outline:none;border-color:var(--blue);background:#fff;}
+.field-group{margin-bottom:18px;}
+
+/* ===== TESTIMONIALS — patient cards ===== */
+.quote-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 24px;height:100%;}
+.quote-card::before{content:'';position:absolute;top:-1px;left:24px;width:40px;height:7px;background:var(--tab,var(--blue));border-radius:0 0 4px 4px;}
+.quote-mark{font-family:var(--display);font-size:36px;color:var(--blue);line-height:0;display:block;margin-bottom:14px;}
+.quote-card p{font-size:15.5px;line-height:1.7;margin-bottom:20px;}
+.quote-who{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);text-transform:uppercase;}
+
+/* ===== INSURANCE ===== */
+.ins-strip{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.ins-chip{border:1px solid var(--line);border-radius:999px;padding:10px 22px;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);background:var(--card);}
+
+/* ===== BLOG — small record cards row ===== */
+.blog-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;height:100%;}
+.blog-img{height:170px;overflow:hidden;}
+.blog-img img{width:100%;height:100%;object-fit:cover;}
+.blog-body{padding:18px 20px;}
+.blog-tag{font-family:var(--mono);font-size:10.5px;color:var(--tab,var(--blue));text-transform:uppercase;letter-spacing:.05em;}
+.blog-body h5{font-size:16px;margin:8px 0 4px;}
+.blog-date{font-size:12px;color:var(--ink-soft);}
+
+/* ===== FAQ ===== */
+.faq-item{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:var(--card);overflow:hidden;}
+.faq-btn{width:100%;text-align:left;background:none;border:none;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:15px;color:var(--ink);}
+.faq-btn i{color:var(--blue);transition:.25s;}
+.faq-btn[aria-expanded="true"] i{transform:rotate(45deg);}
+.faq-body{padding:0 20px 18px;color:var(--ink-soft);font-size:14px;line-height:1.65;}
+
+/* ===== CTA — solid blue block, still light-mode friendly ===== */
+.cta-block{background:var(--blue);border-radius:20px;padding:52px 44px;color:#fff;}
+.cta-block h3{color:#fff;font-size:clamp(24px,3vw,34px);margin-bottom:8px;}
+.cta-block p{color:rgba(255,255,255,0.85);margin:0;}
+.cta-phone{font-family:var(--mono);font-size:20px;color:#fff;}
+
+/* ===== CONTACT ===== */
+.map-frame{border-radius:14px;overflow:hidden;border:1px solid var(--line);min-height:380px;}
+
+/* ===== FOOTER — light, not dark ===== */
+footer{background:var(--card);border-top:1px solid var(--line);padding-top:56px;color:var(--ink-soft);}
+.footer-brand{font-family:var(--display);font-weight:600;font-size:20px;color:var(--ink);margin-bottom:14px;}
+footer h6{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink);margin-bottom:16px;}
+footer ul{list-style:none;padding:0;}
+footer ul li{margin-bottom:10px;font-size:14px;}
+footer a:hover{color:var(--blue);}
+.footer-bottom{border-top:1px solid var(--line);padding:18px 0;margin-top:36px;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.footer-emg{font-family:var(--mono);font-size:18px;color:var(--emergency);}
+
+/* ===== SCROLL / BACK TO TOP ===== */
+.scroll-progress{position:fixed;top:0;left:0;height:2px;background:var(--blue);z-index:2000;width:0%;}
+.back-to-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:.3s;border:none;}
+.back-to-top.show{opacity:1;pointer-events:auto;}
+.back-to-top:hover{background:var(--blue);}
+
+@media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="util-bar">
+  <div class="container-xl">
+    <span>LUCKNOW · ESTABLISHED 1998 · NABH ACCREDITED</span>
+    <span><a href="tel:+916306008818">+91 6306008818</a> · EMERGENCY 24/7</span>
+  </div>
+</div>
+
+<nav class="masthead-nav">
+  <div class="container-xl masthead-row">
+    <a href="#home" class="brand"><span class="mark">L</span>Life Hospital</a>
+    <div class="nav-links d-none d-xl-flex">
+      <a href="#about">About</a>
+      <a href="#departments">Departments</a>
+      <a href="#doctors">Doctors</a>
+      <a href="#facilities">Facilities</a>
+      <a href="#packages">Packages</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="tel:+916306008818" class="btn-emg d-none d-md-inline-flex"><i class="fa-solid fa-phone"></i> Emergency</a>
+      <a href="#appointment" class="btn-fill d-none d-md-inline-flex" style="padding:10px 20px;">Book Appointment</a>
+      <button class="navbar-toggler-x d-xl-none" data-bs-toggle="offcanvas" data-bs-target="#mobileNav"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</nav>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav">
+  <div class="offcanvas-header">
+    <span class="brand"><span class="mark">L</span>Life Hospital</span>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="d-flex flex-column mb-4">
+      <a href="#about" class="fw-semibold py-2" data-bs-dismiss="offcanvas">About</a>
+      <a href="#departments" class="fw-semibold py-2" data-bs-dismiss="offcanvas">Departments</a>
+      <a href="#doctors" class="fw-semibold py-2" data-bs-dismiss="offcanvas">Doctors</a>
+      <a href="#facilities" class="fw-semibold py-2" data-bs-dismiss="offcanvas">Facilities</a>
+      <a href="#packages" class="fw-semibold py-2" data-bs-dismiss="offcanvas">Packages</a>
+      <a href="#contact" class="fw-semibold py-2" data-bs-dismiss="offcanvas">Contact</a>
+    </div>
+    <a href="tel:+916306008818" class="btn-emg w-100 justify-content-center mb-2"><i class="fa-solid fa-phone"></i> Emergency</a>
+    <a href="#appointment" class="btn-fill w-100 justify-content-center">Book Appointment</a>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="container-xl">
+    <span class="eyebrow"><span class="dot"></span>Trusted Healthcare Since 1998</span>
+    <h1>Your health, kept on <span class="accent">one record</span>, in one place.</h1>
+    <p class="lead">Life Hospital runs 500 beds and 8 specialty departments from a single Lucknow campus — so your file, your doctor, and your follow-up all stay under one roof.</p>
+    <div class="hero-cta">
+      <a href="#appointment" class="btn-fill">Book Appointment <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#departments" class="btn-line">View Departments</a>
+    </div>
+    <div class="tab-strip">
+      <a href="#departments" class="tab-chip" style="--c:var(--tab-cardio);"><span class="sw"></span>Cardiology</a>
+      <a href="#departments" class="tab-chip" style="--c:var(--tab-neuro);"><span class="sw"></span>Neurology</a>
+      <a href="#departments" class="tab-chip" style="--c:var(--tab-ortho);"><span class="sw"></span>Orthopedics</a>
+      <a href="#departments" class="tab-chip" style="--c:var(--tab-peds);"><span class="sw"></span>Pediatrics</a>
+      <a href="#departments" class="tab-chip" style="--c:var(--tab-gyno);"><span class="sw"></span>Gynecology</a>
+      <a href="#departments" class="tab-chip" style="--c:var(--tab-emg);"><span class="sw"></span>Emergency</a>
+    </div>
+    <div class="hero-banner">
+      <img src="https://images.unsplash.com/photo-1587351021355-a479a299d2f9?q=80&w=1600&auto=format&fit=crop" alt="Life Hospital atrium">
+      <div class="hero-cap"><span>MAIN ATRIUM, LIFE HOSPITAL</span><span>LUCKNOW, UP</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUICK FACTS STRIP ===== -->
+<section class="facts-strip">
+  <div class="container-xl">
+    <div class="facts-row">
+      <div class="facts-cell"><div class="facts-num">50+</div><div class="facts-lbl">Doctors</div></div>
+      <div class="facts-cell"><div class="facts-num">100K+</div><div class="facts-lbl">Patients</div></div>
+      <div class="facts-cell"><div class="facts-num">500+</div><div class="facts-lbl">Beds</div></div>
+      <div class="facts-cell"><div class="facts-num">24/7</div><div class="facts-lbl">Emergency</div></div>
+      <div class="facts-cell"><div class="facts-num">4.9</div><div class="facts-lbl">Patient Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="pad" id="about">
+  <div class="container-xl">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <div class="about-card-photo">
+          <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1000&auto=format&fit=crop" alt="Life Hospital facility">
+          <div class="punch-tab">FIG. 01 — MAIN WARD</div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <span class="eyebrow"><span class="dot"></span>About Life Hospital</span>
+        <h2 class="title">One campus, 27 years, no outside referrals.</h2>
+        <p class="sub dropcap mb-4">Life Hospital opened in 1998 with 40 beds and one operation theatre. Today the same campus runs 500 beds, its own imaging and pathology lab, and 8 specialty departments.</p>
+        <div class="fact-line"><span>Years operating</span><span>27+</span></div>
+        <div class="fact-line"><span>In-house diagnostics</span><span>YES</span></div>
+        <div class="fact-line"><span>Cashless insurance</span><span>YES</span></div>
+        <div class="fact-line"><span>NABH standards</span><span>YES</span></div>
+        <a href="#" class="btn-line mt-4 d-inline-flex">Read Full History</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DEPARTMENTS ===== -->
+<section class="pad" id="departments" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Departments</span>
+      <h2 class="title">Eight departments, one shared record.</h2>
+      <p class="sub">Each has its own attending specialists, on-call rota, and dedicated ward.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-cardio);"><div class="punch"></div><div class="dept-tag" style="--tab:var(--tab-cardio);">Card C-01</div><h5 class="dept-name">Cardiology</h5><p class="dept-desc">ECG, angioplasty, and rhythm management.</p><a href="#" class="btn-line" style="padding:8px 16px;font-size:13px;">Read More</a><div class="rindex">01/08</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-neuro);"><div class="punch"></div><div class="dept-tag" style="--tab:var(--tab-neuro);">Card C-02</div><h5 class="dept-name">Neurology</h5><p class="dept-desc">Stroke care, EEG, nerve disorders.</p><a href="#" class="btn-line" style="padding:8px 16px;font-size:13px;">Read More</a><div class="rindex">02/08</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-ortho);"><div class="punch"></div><div class="dept-tag" style="--tab:var(--tab-ortho);">Card C-03</div><h5 class="dept-name">Orthopedics</h5><p class="dept-desc">Joint replacement, spine, sports injury.</p><a href="#" class="btn-line" style="padding:8px 16px;font-size:13px;">Read More</a><div class="rindex">03/08</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-peds);"><div class="punch"></div><div class="dept-tag" style="--tab:var(--tab-peds);">Card C-04</div><h5 class="dept-name">Pediatrics</h5><p class="dept-desc">Newborn care, vaccination, growth checks.</p><a href="#" class="btn-line" style="padding:8px 16px;font-size:13px;">Read More</a><div class="rindex">04/08</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-gyno);"><div class="punch"></div><div class="dept-tag" style="--tab:var(--tab-gyno);">Card C-05</div><h5 class="dept-name">Gynecology</h5><p class="dept-desc">Prenatal care, delivery, women's surgery.</p><a href="#" class="btn-line" style="padding:8px 16px;font-size:13px;">Read More</a><div class="rindex">05/08</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-derm);"><div class="punch"></div><div class="dept-tag" style="--tab:var(--tab-derm);">Card C-06</div><h5 class="dept-name">Dermatology</h5><p class="dept-desc">Skin conditions, hair loss, procedures.</p><a href="#" class="btn-line" style="padding:8px 16px;font-size:13px;">Read More</a><div class="rindex">06/08</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-surg);"><div class="punch"></div><div class="dept-tag" style="--tab:var(--tab-surg);">Card C-07</div><h5 class="dept-name">General Surgery</h5><p class="dept-desc">Laparoscopic, abdominal, day-care.</p><a href="#" class="btn-line" style="padding:8px 16px;font-size:13px;">Read More</a><div class="rindex">07/08</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-emg);"><div class="punch"></div><div class="dept-tag" style="--tab:var(--tab-emg);">Card C-08</div><h5 class="dept-name">Emergency</h5><p class="dept-desc">Trauma response, ICU transfer, ambulance.</p><a href="#" class="btn-line" style="padding:8px 16px;font-size:13px;">Read More</a><div class="rindex">08/08</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY CHOOSE ===== -->
+<section class="pad">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Why Life Hospital</span>
+      <h2 class="title">Why families keep coming back.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6"><div class="rcard why-card" style="--tab:var(--tab-cardio);"><div class="punch"></div><div class="why-num">01</div><h4>Experienced Doctors</h4><p>Specialists with 10+ years each, not rotating general staff.</p></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard why-card" style="--tab:var(--tab-ortho);"><div class="punch"></div><div class="why-num">02</div><h4>Latest Equipment</h4><p>In-house MRI, CT, and lab — no outside referral needed.</p></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard why-card" style="--tab:var(--tab-peds);"><div class="punch"></div><div class="why-num">03</div><h4>Affordable Treatment</h4><p>Transparent, itemized billing agreed before admission.</p></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard why-card" style="--tab:var(--tab-emg);"><div class="punch"></div><div class="why-num">04</div><h4>24×7 Emergency</h4><p>Staffed trauma desk with direct ICU transfer.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DOCTORS ===== -->
+<section class="pad" id="doctors" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Staff Directory</span>
+      <h2 class="title">Meet the specialists.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6">
+        <div class="badge-card"><div class="badge-strip" style="--tab:var(--tab-cardio);"></div>
+          <div class="badge-photo"><img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=400&auto=format&fit=crop"></div>
+          <div class="badge-body"><div><div class="badge-id">DR-014 · CARDIOLOGY</div><h5>Dr. Aditi Sharma</h5><div class="badge-spec">MD, DM · 14 yrs</div></div><div class="badge-meta"><span>★ 4.9</span><a href="#appointment" class="arrow-link" style="color:var(--blue);font-weight:600;">Book →</a></div></div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="badge-card"><div class="badge-strip" style="--tab:var(--tab-neuro);"></div>
+          <div class="badge-photo"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400&auto=format&fit=crop"></div>
+          <div class="badge-body"><div><div class="badge-id">DR-021 · NEUROLOGY</div><h5>Dr. Rohan Verma</h5><div class="badge-spec">MD, DM · 12 yrs</div></div><div class="badge-meta"><span>★ 4.8</span><a href="#appointment" style="color:var(--blue);font-weight:600;">Book →</a></div></div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="badge-card"><div class="badge-strip" style="--tab:var(--tab-gyno);"></div>
+          <div class="badge-photo"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto=format&fit=crop"></div>
+          <div class="badge-body"><div><div class="badge-id">DR-009 · GYNECOLOGY</div><h5>Dr. Kavita Nair</h5><div class="badge-spec">MBBS, MS · 16 yrs</div></div><div class="badge-meta"><span>★ 4.9</span><a href="#appointment" style="color:var(--blue);font-weight:600;">Book →</a></div></div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="badge-card"><div class="badge-strip" style="--tab:var(--tab-ortho);"></div>
+          <div class="badge-photo"><img src="https://images.unsplash.com/photo-1622902046580-2b47f47f5471?q=80&w=400&auto=format&fit=crop"></div>
+          <div class="badge-body"><div><div class="badge-id">DR-033 · ORTHOPEDICS</div><h5>Dr. Aman Khan</h5><div class="badge-spec">MS · 11 yrs</div></div><div class="badge-meta"><span>★ 4.7</span><a href="#appointment" style="color:var(--blue);font-weight:600;">Book →</a></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FACILITIES ===== -->
+<section class="pad" id="facilities">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Facilities</span>
+      <h2 class="title">Infrastructure on record.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-cardio);"><div class="punch"></div><div class="fac-photo"><img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=600&auto=format&fit=crop"></div><h5 style="font-size:15px;">MRI Suite</h5><div class="rindex">FIG.02</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-neuro);"><div class="punch"></div><div class="fac-photo"><img src="https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?q=80&w=600&auto=format&fit=crop"></div><h5 style="font-size:15px;">CT Scan Center</h5><div class="rindex">FIG.03</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-surg);"><div class="punch"></div><div class="fac-photo"><img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=600&auto=format&fit=crop"></div><h5 style="font-size:15px;">Operation Theatre</h5><div class="rindex">FIG.04</div></div></div>
+      <div class="col-lg-3 col-md-6"><div class="rcard" style="--tab:var(--tab-emg);"><div class="punch"></div><div class="fac-photo"><img src="https://images.unsplash.com/photo-1587351021355-a479a299d2f9?q=80&w=600&auto=format&fit=crop"></div><h5 style="font-size:15px;">ICU</h5><div class="rindex">FIG.05</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PACKAGES ===== -->
+<section class="pad" id="packages" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Health Packages</span>
+      <h2 class="title">Preventive checkups.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="pkg-card">
+          <div class="pkg-tab" style="--tab:var(--tab-peds);background:var(--tab-peds);">Basic</div>
+          <div class="pkg-head"><h5>Basic Checkup</h5><div class="pkg-price">&#8377;1,499 <span>/checkup</span></div></div>
+          <div class="pkg-body"><ul><li><i class="fa-solid fa-check"></i> General Consultation</li><li><i class="fa-solid fa-check"></i> CBC + Sugar Panel</li><li><i class="fa-solid fa-check"></i> Blood Pressure Check</li><li><i class="fa-solid fa-check"></i> ECG</li></ul><a href="#appointment" class="btn-line w-100 justify-content-center">Choose Plan</a></div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="pkg-card featured">
+          <div class="pkg-tab" style="background:var(--blue);">Most Booked</div>
+          <div class="pkg-head"><h5>Standard Checkup</h5><div class="pkg-price">&#8377;3,499 <span>/checkup</span></div></div>
+          <div class="pkg-body"><ul><li><i class="fa-solid fa-check"></i> Specialist Consultation</li><li><i class="fa-solid fa-check"></i> Full Lab + Lipid Profile</li><li><i class="fa-solid fa-check"></i> ECG + Chest X-Ray</li><li><i class="fa-solid fa-check"></i> 15% Discount Applied</li></ul><a href="#appointment" class="btn-fill w-100 justify-content-center">Choose Plan</a></div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="pkg-card">
+          <div class="pkg-tab" style="background:var(--tab-gyno);">Premium</div>
+          <div class="pkg-head"><h5>Premium Checkup</h5><div class="pkg-price">&#8377;6,999 <span>/checkup</span></div></div>
+          <div class="pkg-body"><ul><li><i class="fa-solid fa-check"></i> Multi-Specialist Consult</li><li><i class="fa-solid fa-check"></i> Advanced Labs + Tumor Markers</li><li><i class="fa-solid fa-check"></i> Full Checkup + USG</li><li><i class="fa-solid fa-check"></i> ECG + TMT</li></ul><a href="#appointment" class="btn-line w-100 justify-content-center">Choose Plan</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== APPOINTMENT ===== -->
+<section class="pad" id="appointment">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Appointments</span>
+      <h2 class="title">Request a slot.</h2>
+    </div>
+    <div class="intake-card">
+      <div class="intake-grid">
+        <div class="intake-photo" style="background-image:url('https://images.unsplash.com/photo-1666887360340-2ea6e39f6b53?q=80&w=900&auto=format&fit=crop');"></div>
+        <div class="intake-form">
+          <form>
+            <div class="row g-3">
+              <div class="col-md-6 field-group"><label class="field-label">Full Name</label><input type="text" class="field-input" placeholder="Enter your name"></div>
+              <div class="col-md-6 field-group"><label class="field-label">Phone Number</label><input type="tel" class="field-input" placeholder="+91 00000 00000"></div>
+              <div class="col-md-6 field-group"><label class="field-label">Department</label>
+                <select class="field-input"><option>Cardiology</option><option>Neurology</option><option>Orthopedics</option><option>Pediatrics</option><option>Gynecology</option><option>Dermatology</option></select>
+              </div>
+              <div class="col-md-6 field-group"><label class="field-label">Preferred Doctor</label>
+                <select class="field-input"><option>Any Available</option><option>Dr. Aditi Sharma</option><option>Dr. Rohan Verma</option><option>Dr. Kavita Nair</option></select>
+              </div>
+              <div class="col-md-6 field-group"><label class="field-label">Preferred Date</label><input type="date" class="field-input"></div>
+              <div class="col-md-6 field-group"><label class="field-label">Preferred Time</label><input type="time" class="field-input"></div>
+              <div class="col-12 field-group"><label class="field-label">Message (optional)</label><input type="text" class="field-input" placeholder="Briefly describe your concern"></div>
+              <div class="col-12"><button type="submit" class="btn-fill">Confirm Appointment <i class="fa-solid fa-arrow-right"></i></button></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="pad" id="testimonials" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Patient Records</span>
+      <h2 class="title">Case notes from patients.</h2>
+    </div>
+    <div class="swiper testiSwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><div class="quote-card" style="--tab:var(--tab-cardio);"><span class="quote-mark">&#8220;</span><p>The cardiology team walked me through every step of my treatment with patience I didn't expect.</p><div class="quote-who"><span>Meera Joshi</span><span>★★★★★</span></div></div></div>
+        <div class="swiper-slide"><div class="quote-card" style="--tab:var(--tab-peds);"><span class="quote-mark">&#8220;</span><p>Our son's surgery went smoothly thanks to the pediatric team's calm expertise.</p><div class="quote-who"><span>Rajesh Gupta</span><span>★★★★★</span></div></div></div>
+        <div class="swiper-slide"><div class="quote-card" style="--tab:var(--tab-gyno);"><span class="quote-mark">&#8220;</span><p>From the front desk to discharge, everything felt organized and warm.</p><div class="quote-who"><span>Sunita Rao</span><span>★★★★★</span></div></div></div>
+      </div>
+      <div class="swiper-pagination mt-3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INSURANCE ===== -->
+<section class="pad">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Insurance Partners</span>
+      <h2 class="title">Cashless treatment.</h2>
+    </div>
+    <div class="ins-strip">
+      <span class="ins-chip">STAR HEALTH</span><span class="ins-chip">HDFC ERGO</span><span class="ins-chip">ICICI LOMBARD</span>
+      <span class="ins-chip">NIVA BUPA</span><span class="ins-chip">CARE HEALTH</span><span class="ins-chip">BAJAJ ALLIANZ</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BLOG ===== -->
+<section class="pad" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Health Notes</span>
+      <h2 class="title">Latest from the desk.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4"><div class="blog-card"><div class="blog-img"><img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=700&auto=format&fit=crop"></div><div class="blog-body"><span class="blog-tag" style="--tab:var(--tab-cardio);">Cardiology</span><h5>5 Habits That Protect Your Heart</h5><span class="blog-date">Jul 2026</span></div></div></div>
+      <div class="col-lg-4"><div class="blog-card"><div class="blog-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=700&auto=format&fit=crop"></div><div class="blog-body"><span class="blog-tag" style="--tab:var(--tab-peds);">Pediatrics</span><h5>A Parent's Guide to Seasonal Immunity</h5><span class="blog-date">Jun 2026</span></div></div></div>
+      <div class="col-lg-4"><div class="blog-card"><div class="blog-img"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=700&auto=format&fit=crop"></div><div class="blog-body"><span class="blog-tag" style="--tab:var(--tab-derm);">Wellness</span><h5>Why Annual Checkups Matter</h5><span class="blog-date">Jun 2026</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="pad">
+  <div class="container-xl" style="max-width:780px;">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>FAQ</span>
+      <h2 class="title">Common questions.</h2>
+    </div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="true" data-target="#f1">Do you accept cashless insurance? <i class="fa-solid fa-plus"></i></button><div class="faq-body" id="f1">Yes — we partner with all major insurance providers for cashless treatment across every department.</div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false" data-target="#f2">How quickly can I get an emergency appointment? <i class="fa-solid fa-plus"></i></button><div class="faq-body" id="f2" style="display:none;">Our emergency wing is staffed 24×7 and admits critical patients immediately.</div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false" data-target="#f3">Can I book an online consultation? <i class="fa-solid fa-plus"></i></button><div class="faq-body" id="f3" style="display:none;">Yes — video consultations are available with most specialists.</div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false" data-target="#f4">What should I bring for my first visit? <i class="fa-solid fa-plus"></i></button><div class="faq-body" id="f4" style="display:none;">A valid ID, prior medical records, and your insurance card if applicable.</div></div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="pad">
+  <div class="container-xl">
+    <div class="cta-block d-flex flex-wrap align-items-center justify-content-between gap-4">
+      <div><h3>Need immediate medical assistance?</h3><p>Our emergency desk is staffed around the clock, every day of the year.</p></div>
+      <div class="d-flex align-items-center gap-4 flex-wrap">
+        <a href="tel:+916306008818" class="cta-phone"><i class="fa-solid fa-phone-volume"></i> +91 6306008818</a>
+        <a href="#appointment" class="btn-line" style="background:#fff;border-color:#fff;color:var(--blue);">Book Appointment</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="pad" id="contact">
+  <div class="container-xl">
+    <div class="section-head center">
+      <span class="eyebrow"><span class="dot"></span>Contact</span>
+      <h2 class="title">Find us.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="fact-line"><span>Phone</span><span>+91 6306008818</span></div>
+        <div class="fact-line"><span>Email</span><span>hospital@gmail.com</span></div>
+        <div class="fact-line"><span>Location</span><span>Civil Lines, Lucknow</span></div>
+        <div class="fact-line"><span>Emergency</span><span style="color:var(--emergency);">24 / 7</span></div>
+        <div class="d-flex gap-3 mt-4">
+          <a href="#" style="color:var(--blue);"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" style="color:var(--blue);"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" style="color:var(--blue);"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <iframe class="map-frame" src="https://www.google.com/maps?q=Lucknow,Uttar%20Pradesh&output=embed" width="100%" style="border:0;" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container-xl">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand">Life Hospital</div>
+        <p style="font-size:14px;line-height:1.7;">500 beds, 8 departments, one Lucknow campus since 1998.</p>
+      </div>
+      <div class="col-lg-2 col-6">
+        <h6>Quick Links</h6>
+        <ul><li><a href="#about">About</a></li><li><a href="#doctors">Doctors</a></li><li><a href="#packages">Packages</a></li><li><a href="#appointment">Appointment</a></li></ul>
+      </div>
+      <div class="col-lg-3 col-6">
+        <h6>Departments</h6>
+        <ul><li><a href="#">C-01 Cardiology</a></li><li><a href="#">C-02 Neurology</a></li><li><a href="#">C-03 Orthopedics</a></li><li><a href="#">C-04 Pediatrics</a></li></ul>
+      </div>
+      <div class="col-lg-3">
+        <h6>Emergency</h6>
+        <a href="tel:+916306008818" class="footer-emg">+91 6306008818</a>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2026 Life Hospital.</span><span>Civil Lines, Lucknow, Uttar Pradesh</span></div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+<script>
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const progress = document.getElementById('scrollProgress');
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (window.scrollY / h) * 100 + '%';
+    backToTop.classList.toggle('show', window.scrollY > 500);
+  });
+  backToTop.addEventListener('click', () => window.scrollTo({top:0, behavior: prefersReduced ? 'auto' : 'smooth'}));
+
+  new Swiper('.testiSwiper', {
+    slidesPerView: 1, spaceBetween: 24, loop: true,
+    autoplay: prefersReduced ? false : { delay: 5000, disableOnInteraction: false },
+    pagination: { el: '.swiper-pagination', clickable: true },
+    breakpoints: { 992: { slidesPerView: 3 } }
+  });
+
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body = document.querySelector(btn.dataset.target);
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      body.style.display = open ? 'none' : 'block';
+    });
+  });
+</script>
+</body>
+</html>

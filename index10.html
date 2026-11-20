@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Hospital — Exceptional Care. Designed Around Life.</title>
+  <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/320677146?s=200&v=4">
+<meta name="description" content="Life Hospital — a multi-specialty hospital built around trust, technology and human care since 1998.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --bg:#FFFFFF;
+  --ink:#151327;
+  --ink-soft:#68647E;
+  --teal:#0EA894;
+  --teal-deep:#087F6F;
+  --coral:#FF6F59;
+  --lavender:#7C6FF0;
+  --yellow:#FFC857;
+  --mint-bg:#E9FBF6;
+  --peach-bg:#FFF1EA;
+  --lav-bg:#F2F0FE;
+  --line:#ECEAF3;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --container:1320px;
+  --r-lg:32px;
+  --r-md:22px;
+  --r-sm:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation-duration:.01ms !important;transition-duration:.01ms !important;}}
+body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+h1,h2,h3,h4{font-family:'Unbounded',sans-serif;font-weight:600;letter-spacing:-0.01em;color:var(--ink);line-height:1.12;}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 40px;}
+:focus-visible{outline:2px solid var(--lavender);outline-offset:3px;}
+
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:.02em;color:var(--teal-deep);background:var(--mint-bg);padding:9px 18px;border-radius:100px;}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);}
+.chip.c-coral{color:#B84631;background:var(--peach-bg);}
+.chip.c-coral .dot{background:var(--coral);}
+.chip.c-lav{color:#4A3FC4;background:var(--lav-bg);}
+.chip.c-lav .dot{background:var(--lavender);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:17px 30px;border-radius:100px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .3s;white-space:nowrap;}
+.btn-primary{background:var(--ink);color:#fff;box-shadow:0 10px 24px -10px rgba(21,19,39,.4);}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 30px -10px rgba(21,19,39,.5);}
+.btn-teal{background:var(--teal);color:#fff;box-shadow:0 10px 24px -10px rgba(14,168,148,.55);}
+.btn-teal:hover{transform:translateY(-3px) scale(1.02);background:var(--teal-deep);}
+.btn-outline{border:2px solid var(--ink);color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:#fff;}
+
+section{position:relative;}
+.section-pad{padding:130px 0;}
+.head-block{max-width:600px;}
+.head-block h2{font-size:clamp(30px,3.6vw,46px);margin-top:20px;}
+.head-block p{margin-top:20px;color:var(--ink-soft);font-size:16.5px;max-width:480px;}
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:64px;flex-wrap:wrap;}
+.head-row .head-block{margin-bottom:0;}
+
+.blob{position:absolute;z-index:0;filter:blur(0px);pointer-events:none;}
+
+/* ============ NAV ============ */
+.nav{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.nav-inner{max-width:var(--container);margin:0 auto;padding:18px 40px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:18px;}
+.nav-logo .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--teal),var(--lavender));flex-shrink:0;}
+.nav-links{display:flex;align-items:center;gap:30px;font-size:14.5px;font-weight:500;color:var(--ink-soft);}
+.nav-links a{position:relative;transition:color .3s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-cta{display:flex;align-items:center;gap:20px;}
+.nav-emergency{color:var(--coral);font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:7px;}
+.nav-emergency::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--coral);animation:pulse-dot 1.8s infinite;}
+@keyframes pulse-dot{0%{box-shadow:0 0 0 0 rgba(255,111,89,.5);}70%{box-shadow:0 0 0 8px rgba(255,111,89,0);}100%{box-shadow:0 0 0 0 rgba(255,111,89,0);}}
+.nav-cta .btn{padding:12px 22px;font-size:13.5px;}
+.nav-burger{display:none;width:36px;height:36px;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
+.nav-burger span{width:18px;height:2px;border-radius:2px;background:var(--ink);}
+
+/* ============ HERO ============ */
+.hero{background:var(--mint-bg);overflow:hidden;padding:70px 0 0;position:relative;}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;position:relative;z-index:2;}
+.hero h1{font-size:clamp(42px,5.6vw,74px);}
+.hero h1 .hl{color:var(--teal);}
+.hero p.lead{margin-top:26px;max-width:440px;color:var(--ink-soft);font-size:17.5px;}
+.hero-ctas{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;}
+.hero-media{position:relative;}
+.hero-media .photo-card{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/5;box-shadow:0 40px 70px -24px rgba(21,19,39,.28);position:relative;}
+.hero-media .photo-card img{width:100%;height:100%;object-fit:cover;}
+.float-card{position:absolute;background:#fff;border-radius:var(--r-md);padding:16px 18px;box-shadow:0 20px 40px -18px rgba(21,19,39,.25);display:flex;align-items:center;gap:12px;}
+.float-card .ic{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.float-card .txt .n{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:600;}
+.float-card .txt .l{font-size:11.5px;color:var(--ink-soft);margin-top:1px;}
+.fc1{top:8%;left:-40px;animation:bob1 6s ease-in-out infinite;}
+.fc1 .ic{background:var(--mint-bg);color:var(--teal-deep);}
+.fc2{bottom:12%;right:-46px;animation:bob2 7s ease-in-out infinite;}
+.fc2 .ic{background:var(--peach-bg);color:#B84631;}
+@keyframes bob1{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-14px) rotate(1deg);}}
+@keyframes bob2{0%,100%{transform:translateY(0) rotate(2deg);}50%{transform:translateY(14px) rotate(-1deg);}}
+@media(max-width:1100px){.float-card{display:none;}}
+.hero-blob-1{top:-120px;right:-160px;width:480px;height:480px;background:radial-gradient(circle,rgba(124,111,240,.18),transparent 70%);}
+.hero-blob-2{bottom:-160px;left:-140px;width:420px;height:420px;background:radial-gradient(circle,rgba(255,200,87,.25),transparent 70%);}
+.hero-stats{display:flex;gap:0;margin-top:80px;position:relative;z-index:2;border-top:1px solid rgba(21,19,39,.1);}
+.hero-stat{flex:1;padding:26px 10px;text-align:center;border-right:1px solid rgba(21,19,39,.1);}
+.hero-stat:last-child{border-right:none;}
+.hero-stat .n{font-family:'Unbounded',sans-serif;font-size:28px;font-weight:700;}
+.hero-stat .l{margin-top:4px;font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
+
+/* ============ TRUST ============ */
+.trust{padding:30px 0;overflow:hidden;}
+.trust-track{display:flex;gap:20px;width:max-content;animation:marquee 28s linear infinite;}
+.trust:hover .trust-track{animation-play-state:paused;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.trust-pill{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:100px;border:1.5px solid var(--line);font-size:13.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;}
+.trust-pill span.d{width:6px;height:6px;border-radius:50%;background:var(--teal);}
+
+/* ============ STORY ============ */
+.story{background:var(--bg);}
+.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:start;}
+.story-media{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/5;position:sticky;top:110px;}
+.story-media img{width:100%;height:100%;object-fit:cover;}
+.t-card{background:var(--bg);border:1.5px solid var(--line);border-radius:var(--r-md);padding:26px 28px;margin-bottom:18px;transition:border-color .3s,transform .3s;}
+.t-card:hover{border-color:var(--teal);transform:translateX(6px);}
+.t-card .yr{font-family:'Unbounded',sans-serif;font-weight:700;font-size:13px;color:var(--teal-deep);}
+.t-card h4{margin-top:10px;font-size:20px;}
+.t-card p{margin-top:8px;color:var(--ink-soft);font-size:14.5px;}
+
+/* ============ SPECIALTIES ============ */
+.specialties{background:var(--lav-bg);}
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.spec-card{background:#fff;border-radius:var(--r-lg);padding:32px 28px;transition:transform .4s var(--ease),box-shadow .4s var(--ease);position:relative;overflow:hidden;}
+.spec-card:hover{transform:translateY(-8px);box-shadow:0 26px 50px -20px rgba(21,19,39,.2);}
+.spec-photo{border-radius:var(--r-md);overflow:hidden;aspect-ratio:16/11;margin-bottom:22px;}
+.spec-photo img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
+.spec-card:hover .spec-photo img{transform:scale(1.08);}
+.spec-card h3{font-size:20px;}
+.spec-card p{margin-top:8px;color:var(--ink-soft);font-size:14px;}
+.spec-arrow{position:absolute;top:26px;right:26px;width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;transform:rotate(-45deg);transition:all .4s var(--ease);}
+.spec-card:hover .spec-arrow{transform:rotate(0);background:var(--teal);}
+
+/* ============ JOURNEY ============ */
+.journey-track{display:flex;gap:18px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;}
+.journey-track::-webkit-scrollbar{display:none;}
+.j-step{flex:0 0 220px;background:#fff;border:1.5px solid var(--line);border-radius:var(--r-md);padding:28px 24px;}
+.j-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px;}
+.j-step:nth-child(6n+1) .j-icon{background:var(--mint-bg);}
+.j-step:nth-child(6n+2) .j-icon{background:var(--peach-bg);}
+.j-step:nth-child(6n+3) .j-icon{background:var(--lav-bg);}
+.j-step:nth-child(6n+4) .j-icon{background:#FFF7E0;}
+.j-step:nth-child(6n+5) .j-icon{background:var(--mint-bg);}
+.j-step:nth-child(6n+6) .j-icon{background:var(--lav-bg);}
+.j-step h4{font-size:17px;}
+.j-step p{margin-top:8px;color:var(--ink-soft);font-size:13.5px;}
+
+/* ============ DOCTORS ============ */
+.doctors{background:var(--mint-bg);}
+.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.doc-card{background:#fff;border-radius:var(--r-lg);overflow:hidden;transition:transform .4s var(--ease);}
+.doc-card:hover{transform:translateY(-8px);}
+.doc-photo{aspect-ratio:4/5;overflow:hidden;position:relative;}
+.doc-photo img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
+.doc-card:hover .doc-photo img{transform:scale(1.06);}
+.doc-info{padding:22px 24px 26px;}
+.doc-info .spec{font-size:12.5px;font-weight:700;color:var(--teal-deep);}
+.doc-info h4{margin-top:8px;font-size:19px;}
+.doc-info .role{color:var(--ink-soft);font-size:13.5px;margin-top:2px;}
+.doc-info .btn{margin-top:18px;width:100%;padding:12px;font-size:13.5px;}
+
+/* ============ ENVIRONMENT ============ */
+.env-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;gap:16px;}
+.env-item{position:relative;border-radius:var(--r-md);overflow:hidden;}
+.env-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
+.env-item:hover img{transform:scale(1.08);}
+.env-item::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(21,19,39,.7));opacity:0;transition:opacity .35s;}
+.env-item:hover::after{opacity:1;}
+.env-item span{position:absolute;left:16px;bottom:14px;color:#fff;font-weight:700;font-size:14px;opacity:0;transform:translateY(6px);transition:all .35s var(--ease);}
+.env-item:hover span{opacity:1;transform:translateY(0);}
+.ev-a{grid-column:span 2;grid-row:span 2;}
+@media(max-width:900px){.env-grid{grid-template-columns:repeat(2,1fr);}.ev-a{grid-column:span 2;grid-row:span 1;height:280px;}}
+
+/* ============ TECH ============ */
+.tech{background:var(--ink);color:#fff;}
+.tech .head-block h2,.tech .head-block p{color:#fff;}
+.tech .head-block p{color:rgba(255,255,255,.62);}
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.tech-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-md);padding:30px 26px;transition:all .4s var(--ease);}
+.tech-card:hover{background:rgba(255,255,255,.1);transform:translateY(-6px);}
+.tech-ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:22px;}
+.tech-card:nth-child(6n+1) .tech-ic{background:var(--teal);}
+.tech-card:nth-child(6n+2) .tech-ic{background:var(--coral);}
+.tech-card:nth-child(6n+3) .tech-ic{background:var(--lavender);}
+.tech-card:nth-child(6n+4) .tech-ic{background:var(--yellow);}
+.tech-card:nth-child(6n+5) .tech-ic{background:var(--teal);}
+.tech-card:nth-child(6n+6) .tech-ic{background:var(--lavender);}
+.tech-card h4{color:#fff;font-size:18px;}
+.tech-card p{margin-top:10px;color:rgba(255,255,255,.6);font-size:14px;}
+
+/* ============ WHY ============ */
+.why{background:var(--bg);}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.why-card{padding:32px 26px;border-radius:var(--r-md);}
+.why-card:nth-child(6n+1){background:var(--mint-bg);}
+.why-card:nth-child(6n+2){background:var(--peach-bg);}
+.why-card:nth-child(6n+3){background:var(--lav-bg);}
+.why-card:nth-child(6n+4){background:#FFF7E0;}
+.why-card:nth-child(6n+5){background:var(--mint-bg);}
+.why-card:nth-child(6n+6){background:var(--lav-bg);}
+.why-card h4{font-size:19px;}
+.why-card p{margin-top:8px;color:var(--ink-soft);font-size:14px;}
+
+/* ============ METRICS ============ */
+.metrics{background:linear-gradient(135deg,var(--teal),var(--lavender));color:#fff;}
+.metrics-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;padding:90px 0;}
+.metric{text-align:center;}
+.metric .num{font-family:'Unbounded',sans-serif;font-size:clamp(32px,4vw,50px);font-weight:700;}
+.metric .lbl{margin-top:8px;font-size:13px;color:rgba(255,255,255,.85);text-transform:uppercase;letter-spacing:.04em;}
+
+/* ============ STORIES ============ */
+.story-feature{display:grid;grid-template-columns:.9fr 1.1fr;border-radius:var(--r-lg);overflow:hidden;background:var(--peach-bg);}
+.story-feature-media{aspect-ratio:4/5;}
+.story-feature-media img{width:100%;height:100%;object-fit:cover;}
+.story-feature-text{padding:60px;display:flex;flex-direction:column;justify-content:center;}
+.story-feature-text p.quote{font-family:'Unbounded',sans-serif;font-weight:500;font-size:23px;line-height:1.4;}
+.story-feature-text .attrib{margin-top:28px;display:flex;align-items:center;gap:14px;}
+.attrib img{width:46px;height:46px;border-radius:50%;object-fit:cover;}
+.attrib .name{font-weight:700;font-size:14.5px;}
+.attrib .role{color:var(--ink-soft);font-size:13px;}
+
+/* ============ PACKAGES ============ */
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.pkg-card{border-radius:var(--r-lg);padding:36px 30px;border:2px solid var(--line);}
+.pkg-card.mid{background:var(--ink);color:#fff;border-color:var(--ink);}
+.pkg-card.mid .pkg-price span{color:rgba(255,255,255,.55);}
+.pkg-card.mid ul li{color:rgba(255,255,255,.75);}
+.pkg-card .pkg-tag{font-size:12px;font-weight:700;color:var(--teal-deep);text-transform:uppercase;letter-spacing:.03em;}
+.pkg-card.mid .pkg-tag{color:var(--yellow);}
+.pkg-card h4{margin-top:14px;font-size:22px;}
+.pkg-price{margin-top:14px;font-family:'Unbounded',sans-serif;font-size:32px;font-weight:700;}
+.pkg-price span{font-size:13px;color:var(--ink-soft);font-family:'DM Sans',sans-serif;}
+.pkg-list{margin-top:22px;display:flex;flex-direction:column;gap:12px;}
+.pkg-list li{list-style:none;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-soft);}
+.pkg-list li::before{content:'✓';color:var(--teal-deep);font-weight:700;}
+.pkg-card.mid .pkg-list li::before{color:var(--yellow);}
+.pkg-card .btn{margin-top:26px;width:100%;}
+
+/* ============ APPOINTMENT ============ */
+.appointment{background:var(--lav-bg);}
+.appt-panel{background:#fff;border-radius:var(--r-lg);padding:56px;display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;}
+.appt-side h3{font-size:28px;}
+.appt-side p{margin-top:14px;color:var(--ink-soft);font-size:15px;}
+.appt-perks{margin-top:30px;display:flex;flex-direction:column;gap:14px;}
+.appt-perks .perk{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;}
+.appt-perks .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);}
+.appt-form{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.field{grid-column:span 1;}
+.field.full{grid-column:span 2;}
+.field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em;}
+.field input,.field select{width:100%;padding:15px 18px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);transition:border-color .3s;appearance:none;}
+.field input:focus,.field select:focus{border-color:var(--teal);outline:none;}
+.appt-form .btn{grid-column:span 2;margin-top:4px;}
+
+/* ============ FAQ ============ */
+.faq-list{max-width:800px;margin:0 auto;}
+.faq-item{background:#fff;border:1.5px solid var(--line);border-radius:var(--r-md);margin-bottom:14px;overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:24px 26px;font-family:'Unbounded',sans-serif;font-size:16px;font-weight:500;width:100%;text-align:left;}
+.faq-icon{width:30px;height:30px;border-radius:50%;background:var(--mint-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;position:relative;}
+.faq-icon::before,.faq-icon::after{content:'';position:absolute;background:var(--teal-deep);transition:transform .3s;}
+.faq-icon::before{width:10px;height:1.6px;}
+.faq-icon::after{height:10px;width:1.6px;}
+.faq-item.open .faq-icon::after{transform:scaleY(0);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease);}
+.faq-a p{padding:0 26px 24px;color:var(--ink-soft);font-size:14.5px;max-width:600px;}
+
+/* ============ CONTACT ============ */
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;}
+.contact-map{border-radius:var(--r-lg);overflow:hidden;min-height:440px;position:relative;background:var(--mint-bg);}
+.contact-map svg{width:100%;height:100%;}
+.map-pin{position:absolute;top:48%;left:52%;width:18px;height:18px;border-radius:50%;background:var(--coral);border:4px solid #fff;box-shadow:0 6px 16px rgba(255,111,89,.4);}
+.map-pin::after{content:'';position:absolute;inset:-14px;border-radius:50%;border:1.5px solid var(--coral);animation:pingring 2s infinite;}
+@keyframes pingring{0%{transform:scale(.4);opacity:1;}100%{transform:scale(1.7);opacity:0;}}
+.contact-panel{background:var(--peach-bg);border-radius:var(--r-lg);padding:40px;display:flex;flex-direction:column;gap:6px;}
+.contact-row{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-bottom:1px solid rgba(21,19,39,.08);}
+.contact-row:last-of-type{border-bottom:none;}
+.contact-ic{width:42px;height:42px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px;}
+.contact-row h5{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);font-weight:700;}
+.contact-row p{margin-top:3px;font-size:16px;font-weight:700;font-family:'Unbounded',sans-serif;}
+.social-row{display:flex;gap:10px;margin-top:6px;}
+.social-row a{width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;transition:all .3s;}
+.social-row a:hover{background:var(--ink);color:#fff;}
+
+/* ============ FOOTER ============ */
+.footer{background:var(--ink);color:rgba(255,255,255,.65);}
+.footer-top{padding:80px 0 56px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:50px;}
+.footer-brand .nav-logo{color:#fff;margin-bottom:18px;}
+.footer-brand p{font-size:14.5px;max-width:280px;line-height:1.7;}
+.footer-emergency{margin-top:24px;display:inline-flex;flex-direction:column;gap:3px;padding:16px 20px;border-radius:var(--r-md);background:rgba(255,255,255,.08);}
+.footer-emergency .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:rgba(255,255,255,.5);}
+.footer-emergency .num{font-family:'Unbounded',sans-serif;font-size:19px;font-weight:700;color:#fff;}
+.footer h5{color:#fff;font-size:13px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:20px;font-weight:700;}
+.footer ul{list-style:none;display:flex;flex-direction:column;gap:13px;}
+.footer ul a{font-size:14.5px;transition:color .3s;}
+.footer ul a:hover{color:#fff;}
+.footer-news p{font-size:14px;margin-bottom:16px;}
+.newsletter{display:flex;border-radius:100px;background:rgba(255,255,255,.08);padding:5px;}
+.newsletter input{flex:1;background:none;border:none;padding:10px 16px;color:#fff;font-size:13.5px;font-family:'DM Sans',sans-serif;}
+.newsletter input::placeholder{color:rgba(255,255,255,.4);}
+.newsletter button{background:var(--teal);color:#fff;padding:10px 18px;border-radius:100px;font-size:13px;font-weight:700;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.12);padding:26px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;flex-wrap:wrap;gap:14px;}
+
+.reveal{opacity:0;transform:translateY(32px);}
+
+@media(max-width:1180px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-media{max-width:420px;margin:0 auto;}
+  .story-grid{grid-template-columns:1fr;}
+  .story-media{position:relative;top:0;aspect-ratio:16/9;}
+  .spec-grid{grid-template-columns:repeat(2,1fr);}
+  .doc-grid{grid-template-columns:repeat(2,1fr);}
+  .tech-grid{grid-template-columns:repeat(2,1fr);}
+  .why-grid{grid-template-columns:repeat(2,1fr);}
+  .metrics-grid{grid-template-columns:repeat(3,1fr);row-gap:36px;}
+  .story-feature{grid-template-columns:1fr;}
+  .pkg-grid{grid-template-columns:1fr;}
+  .appt-panel{grid-template-columns:1fr;padding:36px;}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:860px){
+  .wrap,.nav-inner{padding-left:22px;padding-right:22px;}
+  .nav-links{display:none;}
+  .nav-burger{display:flex;}
+  .nav-cta .btn-outline{display:none;}
+  .section-pad{padding:80px 0;}
+  .hero-ctas .btn{width:100%;}
+  .hero-ctas{flex-direction:column;}
+  .hero-stats{flex-wrap:wrap;}
+  .hero-stat{flex:0 0 50%;border-bottom:1px solid rgba(21,19,39,.1);}
+  .spec-grid,.doc-grid,.tech-grid,.why-grid{grid-template-columns:1fr;}
+  .env-grid{grid-template-columns:1fr 1fr;}
+  .ev-a{grid-column:span 2;height:260px;}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-top{grid-template-columns:1fr;gap:36px;padding:56px 0 36px;}
+  .appt-form{grid-template-columns:1fr;}
+  .field.full{grid-column:span 1;}
+  .appt-form .btn{grid-column:span 1;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo"><span class="mark"></span>Life Hospital</a>
+    <div class="nav-links">
+      <a href="#story">About</a>
+      <a href="#specialties">Specialties</a>
+      <a href="#doctors">Doctors</a>
+      <a href="#environment">Facilities</a>
+      <a href="#packages">Health Packages</a>
+      <a href="#stories">Patient Stories</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#contact" class="nav-emergency">Emergency</a>
+      <a href="#appointment" class="btn btn-primary">Book Appointment</a>
+    </div>
+    <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="blob hero-blob-1"></div>
+  <div class="blob hero-blob-2"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="chip reveal"><span class="dot"></span>Trusted Since 1998</span>
+        <h1 class="reveal" style="margin-top:24px;">Exceptional care, <span class="hl">designed around life.</span></h1>
+        <p class="lead reveal">A multi-specialty hospital built on twenty-seven years of clinical excellence, modern technology, and care that treats people — not conditions.</p>
+        <div class="hero-ctas reveal">
+          <a href="#appointment" class="btn btn-teal">Book Appointment</a>
+          <a href="#environment" class="btn btn-outline">Explore Our Hospital</a>
+        </div>
+      </div>
+      <div class="hero-media reveal">
+        <div class="photo-card">
+          <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80" alt="Life Hospital entrance and lobby">
+        </div>
+        <div class="float-card fc1"><div class="ic">🩺</div><div class="txt"><div class="n">42 Online</div><div class="l">Doctors Available</div></div></div>
+        <div class="float-card fc2"><div class="ic">⭐</div><div class="txt"><div class="n">4.9 / 5.0</div><div class="l">Patient Rating</div></div></div>
+      </div>
+    </div>
+    <div class="hero-stats reveal">
+      <div class="hero-stat"><div class="n">800+</div><div class="l">Beds</div></div>
+      <div class="hero-stat"><div class="n">150+</div><div class="l">Doctors</div></div>
+      <div class="hero-stat"><div class="n">2M+</div><div class="l">Patients</div></div>
+      <div class="hero-stat"><div class="n">98%</div><div class="l">Success Rate</div></div>
+      <div class="hero-stat"><div class="n">27+</div><div class="l">Years</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TRUST ================= -->
+<div class="trust">
+  <div class="trust-track" style="padding-left:40px;">
+    <div class="trust-pill"><span class="d"></span>NABH Accredited</div>
+    <div class="trust-pill"><span class="d"></span>ISO 9001 Certified</div>
+    <div class="trust-pill"><span class="d"></span>24×7 Emergency</div>
+    <div class="trust-pill"><span class="d"></span>100+ Specialists</div>
+    <div class="trust-pill"><span class="d"></span>Cashless Insurance</div>
+    <div class="trust-pill"><span class="d"></span>Modern ICU</div>
+    <div class="trust-pill"><span class="d"></span>NABH Accredited</div>
+    <div class="trust-pill"><span class="d"></span>ISO 9001 Certified</div>
+    <div class="trust-pill"><span class="d"></span>24×7 Emergency</div>
+    <div class="trust-pill"><span class="d"></span>100+ Specialists</div>
+    <div class="trust-pill"><span class="d"></span>Cashless Insurance</div>
+    <div class="trust-pill"><span class="d"></span>Modern ICU</div>
+  </div>
+</div>
+
+<!-- ================= STORY ================= -->
+<section class="story section-pad" id="story">
+  <div class="wrap story-grid">
+    <div class="story-media reveal">
+      <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1000&q=80" alt="Life Hospital architecture">
+    </div>
+    <div>
+      <span class="chip c-lav reveal"><span class="dot"></span>Our Story</span>
+      <h2 class="reveal" style="margin-top:20px;margin-bottom:44px;">Nearly three decades of building trust, one patient at a time.</h2>
+      <div class="t-card reveal"><div class="yr">1998</div><h4>The Beginning</h4><p>Life Hospital opens its doors with a single mission: care that puts people first.</p></div>
+      <div class="t-card reveal"><div class="yr">2006</div><h4>Growing Community</h4><p>Expanded specialty departments to serve a rapidly growing patient community.</p></div>
+      <div class="t-card reveal"><div class="yr">2013</div><h4>Medical Innovation</h4><p>Introduced advanced diagnostic imaging and a dedicated critical care wing.</p></div>
+      <div class="t-card reveal"><div class="yr">2019</div><h4>Advanced Infrastructure</h4><p>Opened a new tower with robotic-assisted surgical suites and a smart ICU.</p></div>
+      <div class="t-card reveal"><div class="yr">Today</div><h4>27+ Years of Trust</h4><p>800+ beds, 150+ doctors, and two million patients cared for — and counting.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPECIALTIES ================= -->
+<section class="specialties section-pad" id="specialties">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div class="head-block"><span class="chip c-coral"><span class="dot"></span>Medical Specialties</span><h2>Deep expertise, at every stage of life.</h2></div>
+      <p style="max-width:320px;color:var(--ink-soft);font-size:15px;">Five centres of excellence, each led by specialists who treat only what they know best.</p>
+    </div>
+    <div class="spec-grid reveal">
+      <a href="#appointment" class="spec-card">
+        <span class="spec-arrow">→</span>
+        <div class="spec-photo"><img src="https://images.unsplash.com/photo-1628595351029-c2bf17511435?auto=format&fit=crop&w=700&q=80" alt="Heart Institute"></div>
+        <h3>Heart Institute</h3><p>Comprehensive cardiac care, from prevention to complex surgery.</p>
+      </a>
+      <a href="#appointment" class="spec-card">
+        <span class="spec-arrow">→</span>
+        <div class="spec-photo"><img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=700&q=80" alt="Neuro Sciences"></div>
+        <h3>Neuro Sciences</h3><p>Precision neurology and neurosurgery backed by advanced imaging.</p>
+      </a>
+      <a href="#appointment" class="spec-card">
+        <span class="spec-arrow">→</span>
+        <div class="spec-photo"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=700&q=80" alt="Orthopedics"></div>
+        <h3>Orthopedics</h3><p>Joint, spine and sports medicine that gets you moving again.</p>
+      </a>
+      <a href="#appointment" class="spec-card">
+        <span class="spec-arrow">→</span>
+        <div class="spec-photo"><img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=700&q=80" alt="Women's Care"></div>
+        <h3>Women's Care &amp; Mother's Health</h3><p>From prenatal to postnatal, care built around every mother.</p>
+      </a>
+      <a href="#appointment" class="spec-card">
+        <span class="spec-arrow">→</span>
+        <div class="spec-photo"><img src="https://images.unsplash.com/photo-1631507623901-968874a49b95?auto=format&fit=crop&w=700&q=80" alt="Cancer Care"></div>
+        <h3>Cancer Care &amp; Critical Care</h3><p>Multidisciplinary oncology and round-the-clock critical care.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= JOURNEY ================= -->
+<section class="journey section-pad">
+  <div class="wrap">
+    <span class="chip reveal"><span class="dot"></span>Patient Experience</span>
+    <h2 class="reveal" style="margin-top:20px;margin-bottom:44px;max-width:520px;">A journey designed to feel calm, at every step.</h2>
+    <div class="journey-track reveal">
+      <div class="j-step"><div class="j-icon">📅</div><h4>Appointment</h4><p>Book online or by phone in under two minutes.</p></div>
+      <div class="j-step"><div class="j-icon">🩺</div><h4>Consultation</h4><p>Meet your specialist in a calm, private setting.</p></div>
+      <div class="j-step"><div class="j-icon">🔬</div><h4>Diagnosis</h4><p>Advanced imaging and labs, results within hours.</p></div>
+      <div class="j-step"><div class="j-icon">💊</div><h4>Treatment</h4><p>A plan tailored to you, explained plainly.</p></div>
+      <div class="j-step"><div class="j-icon">🛏️</div><h4>Recovery</h4><p>Comfortable rooms, attentive nursing care.</p></div>
+      <div class="j-step"><div class="j-icon">🌿</div><h4>Wellness</h4><p>Follow-up that keeps you well, long after.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DOCTORS ================= -->
+<section class="doctors section-pad" id="doctors">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div class="head-block"><span class="chip c-lav"><span class="dot"></span>Featured Doctors</span><h2>Chosen for skill — and how they make you feel.</h2></div>
+    </div>
+    <div class="doc-grid reveal">
+      <div class="doc-card">
+        <div class="doc-photo"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=700&q=80" alt="Dr. Ananya Rao"></div>
+        <div class="doc-info"><div class="spec">CARDIOLOGY</div><h4>Dr. Ananya Rao</h4><div class="role">Senior Cardiologist · 18 yrs</div><a href="#appointment" class="btn btn-outline">Book Appointment</a></div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-photo"><img src="https://images.unsplash.com/photo-1622902046580-2b47f47f5471?auto=format&fit=crop&w=700&q=80" alt="Dr. Karan Mehta"></div>
+        <div class="doc-info"><div class="spec">NEUROLOGY</div><h4>Dr. Karan Mehta</h4><div class="role">Consultant Neurologist · 15 yrs</div><a href="#appointment" class="btn btn-outline">Book Appointment</a></div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-photo"><img src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&w=700&q=80" alt="Dr. Priya Nair"></div>
+        <div class="doc-info"><div class="spec">ORTHOPEDICS</div><h4>Dr. Priya Nair</h4><div class="role">Lead Orthopedic Surgeon · 20 yrs</div><a href="#appointment" class="btn btn-outline">Book Appointment</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ENVIRONMENT ================= -->
+<section class="environment section-pad" id="environment">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div class="head-block"><span class="chip c-coral"><span class="dot"></span>Our Facilities</span><h2>Spaces built for healing, not just treatment.</h2></div>
+    </div>
+    <div class="env-grid reveal">
+      <a href="#" class="env-item ev-a"><img src="https://images.unsplash.com/photo-1519494080410-f9aa76cb4283?auto=format&fit=crop&w=1100&q=80" alt="Reception"><span>Reception</span></a>
+      <a href="#" class="env-item"><img src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=700&q=80" alt="OT"><span>Operation Theatre</span></a>
+      <a href="#" class="env-item"><img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=700&q=80" alt="MRI"><span>MRI &amp; Imaging</span></a>
+      <a href="#" class="env-item"><img src="https://images.unsplash.com/photo-1587351021355-a479a299d2f9?auto=format&fit=crop&w=700&q=80" alt="ICU"><span>ICU</span></a>
+      <a href="#" class="env-item"><img src="https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?auto=format&fit=crop&w=700&q=80" alt="Lab"><span>Laboratory</span></a>
+      <a href="#" class="env-item"><img src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?auto=format&fit=crop&w=700&q=80" alt="Rooms"><span>Patient Rooms</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TECH ================= -->
+<section class="tech section-pad">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div class="head-block"><span class="chip c-lav"><span class="dot"></span>Technology</span><h2>The instruments of modern medicine.</h2><p>We invest in technology that shortens the distance between question and answer.</p></div>
+    </div>
+    <div class="tech-grid reveal">
+      <div class="tech-card"><div class="tech-ic">🤖</div><h4>AI Diagnostics</h4><p>Machine-assisted analysis that helps specialists catch what matters, faster.</p></div>
+      <div class="tech-card"><div class="tech-ic">🗂️</div><h4>Digital Health Records</h4><p>Your complete history, securely available to every doctor who treats you.</p></div>
+      <div class="tech-card"><div class="tech-ic">🦾</div><h4>Robotic Surgery</h4><p>Minimally invasive procedures with greater precision, faster recovery.</p></div>
+      <div class="tech-card"><div class="tech-ic">📡</div><h4>Smart ICU</h4><p>Continuous monitoring that alerts our teams before problems escalate.</p></div>
+      <div class="tech-card"><div class="tech-ic">🧲</div><h4>Advanced Imaging</h4><p>High-resolution MRI, CT and ultrasound for clearer, earlier answers.</p></div>
+      <div class="tech-card"><div class="tech-ic">🧪</div><h4>Modern Labs</h4><p>Automated diagnostics delivering accurate results within hours.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY ================= -->
+<section class="why section-pad">
+  <div class="wrap">
+    <div class="head-row reveal">
+      <div class="head-block"><span class="chip"><span class="dot"></span>Why Life Hospital</span><h2>Care measured in outcomes, not intentions.</h2></div>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-card"><h4>Experienced Specialists</h4><p>150+ doctors with decades of combined clinical expertise.</p></div>
+      <div class="why-card"><h4>Patient-First Philosophy</h4><p>Every decision starts with what's best for the person in front of us.</p></div>
+      <div class="why-card"><h4>Advanced Technology</h4><p>From robotic surgery to AI diagnostics, kept current every year.</p></div>
+      <div class="why-card"><h4>Affordable Excellence</h4><p>Premium care with transparent pricing and cashless insurance.</p></div>
+      <div class="why-card"><h4>Compassionate Care</h4><p>Clinical skill, delivered with genuine warmth and patience.</p></div>
+      <div class="why-card"><h4>24×7 Emergency Services</h4><p>A fully-equipped emergency and trauma team, always ready.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= METRICS ================= -->
+<section class="metrics">
+  <div class="wrap metrics-grid">
+    <div class="metric"><div class="num" data-count="800">0</div><div class="lbl">Beds</div></div>
+    <div class="metric"><div class="num" data-count="150">0</div><div class="lbl">Doctors</div></div>
+    <div class="metric"><div class="num" data-count="2000000" data-suffix="+">0</div><div class="lbl">Patients Treated</div></div>
+    <div class="metric"><div class="num" data-count="98" data-suffix="%">0</div><div class="lbl">Success Rate</div></div>
+    <div class="metric"><div class="num" data-count="27" data-suffix="+">0</div><div class="lbl">Years of Trust</div></div>
+  </div>
+</section>
+
+<!-- ================= STORIES ================= -->
+<section class="stories section-pad" id="stories">
+  <div class="wrap">
+    <span class="chip c-coral reveal"><span class="dot"></span>Patient Stories</span>
+    <h2 class="reveal" style="margin-top:20px;margin-bottom:44px;">Real recoveries, told in their own words.</h2>
+    <div class="story-feature reveal">
+      <div class="story-feature-media"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80" alt="Patient Meera Kapoor"></div>
+      <div class="story-feature-text">
+        <p class="quote">"From the moment I walked in, I felt like a person — not a patient number. My cardiac team explained every step, and my recovery has been better than I imagined."</p>
+        <div class="attrib">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80" alt="Meera Kapoor">
+          <div><div class="name">Meera Kapoor</div><div class="role">Cardiac Bypass Patient, 2025</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PACKAGES ================= -->
+<section class="packages section-pad" id="packages">
+  <div class="wrap">
+    <div class="head-row reveal" style="justify-content:center;text-align:center;">
+      <div class="head-block" style="margin:0 auto;"><span class="chip"><span class="dot"></span>Health Check Packages</span><h2>Preventive care, made effortless.</h2></div>
+    </div>
+    <div class="pkg-grid reveal">
+      <div class="pkg-card">
+        <span class="pkg-tag">Essential</span><h4>Basic Wellness</h4>
+        <div class="pkg-price">₹2,499 <span>/ package</span></div>
+        <ul class="pkg-list"><li>Full blood count &amp; sugar panel</li><li>Lipid profile</li><li>Physician consultation</li><li>Digital report within 24 hrs</li></ul>
+        <a href="#appointment" class="btn btn-outline">Choose Plan</a>
+      </div>
+      <div class="pkg-card mid">
+        <span class="pkg-tag">Most Popular</span><h4>Complete Health</h4>
+        <div class="pkg-price">₹5,999 <span>/ package</span></div>
+        <ul class="pkg-list"><li>Everything in Basic Wellness</li><li>Cardiac &amp; liver screening</li><li>Whole-body ultrasound</li><li>Specialist consultation</li><li>Dedicated care coordinator</li></ul>
+        <a href="#appointment" class="btn btn-teal">Choose Plan</a>
+      </div>
+      <div class="pkg-card">
+        <span class="pkg-tag">Comprehensive</span><h4>Executive Health</h4>
+        <div class="pkg-price">₹11,999 <span>/ package</span></div>
+        <ul class="pkg-list"><li>Everything in Complete Health</li><li>CT / MRI screening</li><li>Cancer marker panel</li><li>Personalised wellness plan</li></ul>
+        <a href="#appointment" class="btn btn-outline">Choose Plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= APPOINTMENT ================= -->
+<section class="appointment section-pad" id="appointment">
+  <div class="wrap">
+    <div class="appt-panel reveal">
+      <div class="appt-side">
+        <span class="chip c-lav"><span class="dot"></span>Book Appointment</span>
+        <h3 style="margin-top:18px;">Care is a tap away.</h3>
+        <p>Choose your department and preferred time — our team will confirm within minutes.</p>
+        <div class="appt-perks">
+          <div class="perk"><span class="dot"></span>Confirmed within 15 minutes</div>
+          <div class="perk"><span class="dot"></span>No waiting-room delays</div>
+          <div class="perk"><span class="dot"></span>Free rescheduling</div>
+        </div>
+      </div>
+      <form class="appt-form" onsubmit="return false;">
+        <div class="field"><label>Full Name</label><input type="text" required></div>
+        <div class="field"><label>Phone Number</label><input type="tel" required></div>
+        <div class="field"><label>Department</label>
+          <select required><option value="" selected disabled hidden></option><option>Heart Institute</option><option>Neuro Sciences</option><option>Orthopedics</option><option>Women's Care</option><option>Cancer Care</option></select>
+        </div>
+        <div class="field"><label>Preferred Doctor</label>
+          <select required><option value="" selected disabled hidden></option><option>Dr. Ananya Rao</option><option>Dr. Karan Mehta</option><option>Dr. Priya Nair</option><option>Any Available Doctor</option></select>
+        </div>
+        <div class="field"><label>Preferred Date</label><input type="date" required></div>
+        <div class="field"><label>Preferred Time</label><input type="time" required></div>
+        <button type="submit" class="btn btn-teal">Confirm Appointment</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="faq section-pad">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:50px;">
+      <span class="chip reveal"><span class="dot"></span>FAQ</span>
+      <h2 class="reveal" style="margin-top:16px;">Good to know.</h2>
+    </div>
+    <div class="faq-list reveal" id="faqList">
+      <div class="faq-item">
+        <button class="faq-q"><span>Do you accept cashless insurance?</span><span class="faq-icon"></span></button>
+        <div class="faq-a"><p>Yes, we're empanelled with all major insurance providers for cashless treatment across departments.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>How quickly can I get an emergency appointment?</span><span class="faq-icon"></span></button>
+        <div class="faq-a"><p>Our emergency department is staffed 24×7 — walk-ins are triaged and seen immediately based on urgency.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Can I choose a specific doctor?</span><span class="faq-icon"></span></button>
+        <div class="faq-a"><p>Absolutely. You can select your preferred specialist while booking, subject to their availability.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Do you offer online consultations?</span><span class="faq-icon"></span></button>
+        <div class="faq-a"><p>Yes, video consultations are available for select departments — ask our care team when booking.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact section-pad" id="contact">
+  <div class="wrap">
+    <span class="chip c-coral reveal"><span class="dot"></span>Contact Us</span>
+    <h2 class="reveal" style="margin-top:16px;margin-bottom:44px;">We're here, whenever you need us.</h2>
+    <div class="contact-grid reveal">
+      <div class="contact-map">
+        <svg viewBox="0 0 600 460" preserveAspectRatio="none">
+          <rect width="600" height="460" fill="#E9FBF6"/>
+          <path d="M0 120 L600 90" stroke="#D3F2E9" stroke-width="14"/>
+          <path d="M0 250 L600 300" stroke="#D3F2E9" stroke-width="20"/>
+          <path d="M120 0 L160 460" stroke="#D3F2E9" stroke-width="10"/>
+          <path d="M420 0 L460 460" stroke="#D3F2E9" stroke-width="16"/>
+        </svg>
+        <div class="map-pin"></div>
+      </div>
+      <div class="contact-panel">
+        <div class="contact-row"><div class="contact-ic">✚</div><div><h5>Emergency</h5><p>+91 6306008818</p></div></div>
+        <div class="contact-row"><div class="contact-ic">☎</div><div><h5>Phone</h5><p>+91 6306008818</p></div></div>
+        <div class="contact-row"><div class="contact-ic">✉</div><div><h5>Email</h5><p>hospital@gmail.com</p></div></div>
+        <div class="contact-row"><div class="contact-ic">⌂</div><div><h5>Address</h5><p>12 Wellness Avenue, Prayagraj, UP</p></div></div>
+        <div class="contact-row"><div class="contact-ic">◷</div><div><h5>Working Hours</h5><p>OPD 8AM–9PM · Emergency 24×7</p></div></div>
+        <div class="social-row"><a href="#">f</a><a href="#">◎</a><a href="#">in</a><a href="#">▶</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="wrap footer-top">
+    <div class="footer-brand">
+      <a href="#top" class="nav-logo"><span class="mark"></span>Life Hospital</a>
+      <p>Exceptional care, designed around life. A multi-specialty hospital trusted since 1998.</p>
+      <div class="footer-emergency"><span class="lbl">24×7 Emergency</span><span class="num">+91 6306008818</span></div>
+    </div>
+    <div>
+      <h5>Departments</h5>
+      <ul><li><a href="#specialties">Heart Institute</a></li><li><a href="#specialties">Neuro Sciences</a></li><li><a href="#specialties">Orthopedics</a></li><li><a href="#specialties">Women's Care</a></li><li><a href="#specialties">Cancer Care</a></li></ul>
+    </div>
+    <div>
+      <h5>Quick Links</h5>
+      <ul><li><a href="#story">About Us</a></li><li><a href="#doctors">Our Doctors</a></li><li><a href="#packages">Health Packages</a></li><li><a href="#stories">Patient Stories</a></li><li><a href="#contact">Contact</a></li></ul>
+    </div>
+    <div class="footer-news">
+      <h5>Newsletter</h5>
+      <p>Health tips and hospital updates, once a month.</p>
+      <form class="newsletter" onsubmit="return false;"><input type="email" placeholder="Your email address"><button type="submit">Subscribe</button></form>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 Life Hospital. All rights reserved.</span>
+    <span>Prayagraj, Uttar Pradesh, India</span>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.utils.toArray('.reveal').forEach((el) => {
+  gsap.fromTo(el, { y: 32, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
+});
+
+document.querySelectorAll('.metric .num').forEach((el) => {
+  const target = parseFloat(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  ScrollTrigger.create({
+    trigger: el, start: 'top 85%', once: true,
+    onEnter: () => {
+      let obj = { val: 0 };
+      gsap.to(obj, {
+        val: target, duration: 2, ease: 'power2.out',
+        onUpdate: () => {
+          let v = Math.floor(obj.val);
+          el.textContent = (v >= 1000000 ? (v/1000000).toFixed(1) + 'M' : v.toLocaleString('en-IN')) + suffix;
+        }
+      });
+    }
+  });
+});
+
+document.querySelectorAll('.faq-item').forEach((item) => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach((o) => { o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight = null; });
+    if (!isOpen) { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+  });
+});
+
+document.querySelectorAll('.btn-teal, .btn-primary').forEach((btn) => {
+  btn.addEventListener('mousemove', (e) => {
+    const r = btn.getBoundingClientRect();
+    gsap.to(btn, { x: (e.clientX - r.left - r.width/2) * 0.25, y: (e.clientY - r.top - r.height/2) * 0.35, duration: 0.4, ease: 'power2.out' });
+  });
+  btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.4)' }));
+});
+</script>
+</body>
+</html>
